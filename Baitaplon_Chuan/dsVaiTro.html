@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Danh sách vai trò</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+      body {
+        display: inline;
+      }
+
+      /* Main content styles */
+      .container {
+        padding: 20px;
+        transition: margin-left 0.5s;
+        background-color: #fff;
+        margin: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      .sidebar.Mo ~ .container,
+      .sidebar.Mo ~ .header {
+        margin-left: 250px;
+      }
+
+      /* Table styles */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+      th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+      }
+      tr:hover {
+        background-color: #f5f5f5;
+      }
+      .action-buttons {
+        display: flex;
+        gap: 10px;
+      }
+      .edit-button,
+      .delete-button {
+        padding: 5px 10px;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+      }
+      .edit-button {
+        background-color: #ffc107;
+        color: white;
+      }
+      .delete-button {
+        background-color: #dc3545;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-header">Quản Lý SV</div>
+      <ul class="sidebar-menu">
+        <li>
+          <a href="index.html"><i class="fas fa-home"></i>Trang chủ</a>
+        </li>
+        <li>
+          <a href="dsKhoa.html"><i class="fas fa-university"></i>Khoa</a>
+        </li>
+        <li>
+          <a href="lop.html"><i class="fas fa-th-large"></i>Lớp</a>
+        </li>
+        <li>
+          <a href="sinhVien.html"><i class="fas fa-user-graduate"></i>Sinh viên</a>
+        </li>
+        <li>
+          <a href="dsSinhVien.html"
+            ><i class="fas fa-user-graduate"></i>Danh sách sinh viên</a
+          >
+        </li>
+        <li>
+          <a href="dsMonHoc.html"><i class="fas fa-folder"></i>Quản lý môn học</a>
+        </li>
+        <li>
+          <a href="dsDiem.html"><i class="fas fa-folder"></i>Quản lý điểm</a>
+        </li>
+        <li class="active">
+          <a href="dsVaiTro.html"
+            ><i class="fas fa-users"></i>Danh sách vai trò</a
+          >
+        </li>
+        <li>
+          <a href="capNhat.html"
+            ><i class="fas fa-user-tag"></i>Cập nhật vai trò</a
+          >
+        </li>
+        <li class="logout-item">
+          <a href="login.html" class="logout-link">
+            <i class="fas fa-sign-out-alt"></i>Đăng xuất
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Header -->
+    <div class="header">
+      <i class="fas fa-bars menu-icon"></i>
+      <h1>Danh sách vai trò</h1>
+    </div>
+
+    <!-- Main content -->
+    <div class="container">
+      <h1>Danh sách vai trò</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>Tên vai trò</th>
+            <th>Mô tả</th>
+            <th>Quyền hệ thống</th>
+            <th>Quyền quản lý sinh viên</th>
+            <th>Thao tác</th>
+          </tr>
+        </thead>
+        <tbody id="rolesTableBody">
+          <!-- Dữ liệu sẽ được thêm vào đây bằng JavaScript -->
+        </tbody>
+      </table>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Elements
+        const sideBar = document.querySelector(".sidebar");
+        const menuIcon = document.querySelector(".menu-icon");
+        const container = document.querySelector(".container");
+        const header = document.querySelector(".header");
+        const rolesTableBody = document.getElementById("rolesTableBody");
+
+        // ===== Sidebar Management =====
+        function initializeSidebar() {
+          // Kiểm tra trạng thái sidebar từ localStorage
+          const sidebarState = localStorage.getItem("sidebarState");
+          if (sidebarState === "closed") {
+            sideBar.classList.remove("Mo");
+          } else {
+            sideBar.classList.add("Mo");
+          }
+          adjustLayout();
+        }
+
+        function adjustLayout() {
+          if (sideBar.classList.contains("Mo")) {
+            container.style.marginLeft = "270px";
+            header.style.marginLeft = "250px";
+          } else {
+            container.style.marginLeft = "20px";
+            header.style.marginLeft = "0";
+          }
+        }
+
+        function setupSidebarToggle() {
+          menuIcon.addEventListener("click", function () {
+            sideBar.classList.toggle("Mo");
+            // Lưu trạng thái sidebar
+            localStorage.setItem(
+              "sidebarState",
+              sideBar.classList.contains("Mo") ? "open" : "closed"
+            );
+            adjustLayout();
+          });
+        }
+
+        // ===== Roles Table Management =====
+        function loadRoles() {
+          const savedRoles = JSON.parse(localStorage.getItem("roles") || "[]");
+          rolesTableBody.innerHTML = "";
+
+          if (savedRoles.length === 0) {
+            showNoRolesMessage();
+            return;
+          }
+
+          savedRoles.forEach((role, index) => {
+            addRoleToTable(role, index);
+          });
+        }
+
+        function showNoRolesMessage() {
+          rolesTableBody.innerHTML = `
+                  <tr>
+                      <td colspan="5" style="text-align: center; padding: 20px;">
+                          Chưa có vai trò nào được tạo
+                      </td>
+                  </tr>
+              `;
+        }
+
+        function addRoleToTable(role, index) {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+                  <td>${escapeHtml(role.roleName)}</td>
+                  <td>${escapeHtml(role.description || "")}</td>
+                  <td>${formatPermissions(role.permissions.system)}</td>
+                  <td>${formatPermissions(role.permissions.student)}</td>
+                  <td class="action-buttons">
+                      <button class="edit-button" onclick="editRole(${index})">
+                          <i class="fas fa-edit"></i> Sửa
+                      </button>
+                      <button class="delete-button" onclick="deleteRole(${index})">
+                          <i class="fas fa-trash"></i> Xóa
+                      </button>
+                  </td>
+              `;
+          rolesTableBody.appendChild(row);
+        }
+
+        function formatPermissions(permissions) {
+          if (!permissions || permissions.length === 0) {
+            return "Không có quyền";
+          }
+          return permissions.map((p) => escapeHtml(p)).join(", ");
+        }
+
+        function escapeHtml(unsafe) {
+          if (!unsafe) return "";
+          return unsafe
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+        }
+
+        // ===== Role Actions =====
+        window.editRole = function (index) {
+          try {
+            const savedRoles = JSON.parse(
+              localStorage.getItem("roles") || "[]"
+            );
+            const roleToEdit = savedRoles[index];
+
+            if (!roleToEdit) {
+              throw new Error("Vai trò không tồn tại");
+            }
+
+            localStorage.setItem("editingRole", JSON.stringify(roleToEdit));
+            window.location.href = "capNhat.html?edit=true";
+          } catch (error) {
+            console.error("Lỗi khi chỉnh sửa vai trò:", error);
+            alert("Có lỗi xảy ra khi chỉnh sửa vai trò. Vui lòng thử lại.");
+          }
+        };
+
+        window.deleteRole = function (index) {
+          try {
+            if (!confirm("Bạn có chắc chắn muốn xóa vai trò này không?")) {
+              return;
+            }
+
+            const savedRoles = JSON.parse(
+              localStorage.getItem("roles") || "[]"
+            );
+
+            if (!savedRoles[index]) {
+              throw new Error("Vai trò không tồn tại");
+            }
+
+            savedRoles.splice(index, 1);
+            localStorage.setItem("roles", JSON.stringify(savedRoles));
+
+            loadRoles();
+            alert("Xóa vai trò thành công!");
+          } catch (error) {
+            console.error("Lỗi khi xóa vai trò:", error);
+            alert("Có lỗi xảy ra khi xóa vai trò. Vui lòng thử lại.");
+          }
+        };
+
+        // Initialize
+        initializeSidebar();
+        setupSidebarToggle();
+        loadRoles();
+      });
+    </script>
+    <script src="assets/js/script.js"></script>
+  </body>
+</html>

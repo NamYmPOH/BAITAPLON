@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Danh sách Sinh viên</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+      body {
+        display: inline;
+      }
+
+      /* Main content styles */
+      .main-content {
+        flex: 1;
+        padding: 80px 20px 20px;
+        margin-left: 0;
+        transition: margin-left 0.5s;
+      }
+      .sidebar.Mo ~ .main-content {
+        margin-left: 250px;
+      }
+
+      /* Container styles */
+      .container {
+        background-color: #fff;
+        padding: 20px;
+        padding-top: 40px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Form styles */
+      .form-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+      .form-group input,
+      .form-group select,
+      .form-group button {
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+      .form-group button {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        cursor: pointer;
+        border: none;
+        color: white;
+      }
+      .btn-search {
+        background-color: #17a2b8;
+      }
+      .btn-reset {
+        background-color: #dc3545;
+      }
+      .btn-export {
+        background-color: #28a745;
+      }
+      .btn-import {
+        background-color: #007bff;
+      }
+
+      /* Table styles */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 12px;
+        text-align: left;
+      }
+      th {
+        background-color: #f2f2f2;
+      }
+      .actions i {
+        cursor: pointer;
+        margin-right: 10px;
+      }
+      .actions .edit {
+        color: #ffc107;
+      }
+      .actions .delete {
+        color: #dc3545;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-header">Quản Lý SV</div>
+      <ul class="sidebar-menu">
+        <li>
+          <a href="index.html"><i class="fas fa-home"></i>Trang chủ</a>
+        </li>
+        <li>
+          <a href="dsKhoa.html"><i class="fas fa-university"></i>Khoa</a>
+        </li>
+        <li>
+          <a href="lop.html"><i class="fas fa-th-large"></i>Lớp</a>
+        </li>
+        <li>
+          <a href="sinhVien.html"
+            ><i class="fas fa-user-graduate"></i>Sinh viên</a
+          >
+        </li>
+        <li class="active">
+          <a href="dsSinhVien.html"
+            ><i class="fas fa-user-graduate"></i>Danh sách sinh viên</a
+          >
+        </li>
+        <li>
+          <a href="dsMonHoc.html"
+            ><i class="fas fa-folder"></i>Quản lý môn học</a
+          >
+        </li>
+        <li>
+          <a href="dsDiem.html"><i class="fas fa-folder"></i>Quản lý điểm</a>
+        </li>
+        <li>
+          <a href="dsVaiTro.html"
+            ><i class="fas fa-users"></i>Danh sách vai trò</a
+          >
+        </li>
+        <li>
+          <a href="capNhat.html"
+            ><i class="fas fa-user-tag"></i>Cập nhật vai trò</a
+          >
+        </li>
+        <li class="logout-item">
+          <a href="login.html" class="logout-link">
+            <i class="fas fa-sign-out-alt"></i>Đăng xuất
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Header -->
+    <div class="header">
+      <i class="fas fa-bars menu-icon"></i>
+      <h1>Danh sách Sinh viên</h1>
+    </div>
+
+    <!-- Main content -->
+    <div class="main-content">
+      <div class="container">
+        <div class="form-group">
+          <input type="date" placeholder="dd/mm/yyyy" />
+          <select>
+            <option value="">Chọn lớp</option>
+            <option>Kinh tế tài chính</option>
+            <option>Công nghệ thông tin</option>
+            <option>Logistic</option>
+            <option>Du lịch</option>
+            <option>Cơ khí</option>
+          </select>
+          <select>
+            <option value="">Chọn khoa</option>
+            <option>Kinh tế tài chính</option>
+            <option>Công nghệ thông tin</option>
+            <option>Logistic</option>
+            <option>Du lịch</option>
+            <option>Cơ khí</option>
+          </select>
+          <button class="btn-export">
+            <i class="fas fa-file-excel"></i> Export Excel
+          </button>
+          <button class="btn-import">
+            <i class="fas fa-file-import"></i> Import Excel
+          </button>
+        </div>
+
+        <div class="form-group">
+          <input
+            type="text"
+            id="searchMaSV"
+            placeholder="Tìm mã sinh viên ..."
+          />
+          <input
+            type="text"
+            id="searchTenSV"
+            placeholder="Tìm tên sinh viên ..."
+          />
+          <input type="date" id="searchNgaySinh" placeholder="dd/mm/yyyy" />
+          <select id="searchLop">
+            <option value="">Chọn lớp</option>
+            <option>Kinh tế tài chính</option>
+            <option>Công nghệ thông tin</option>
+            <option>Logistic</option>
+            <option>Du lịch</option>
+            <option>Cơ khí</option>
+          </select>
+          <button class="btn-search">
+            <i class="fas fa-search"></i> Tìm kiếm
+          </button>
+          <button class="btn-reset"><i class="fas fa-redo"></i> Reset</button>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>STT</th>
+              <th>Mã sinh viên</th>
+              <th>Tên sinh viên</th>
+              <th>Ngày sinh</th>
+              <th>Lớp</th>
+              <th>Khoa</th>
+              <th>Thao tác</th>
+            </tr>
+          </thead>
+          <tbody id="studentTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Sidebar functionality
+        const sideBar = document.querySelector(".sidebar");
+        const menuIcon = document.querySelector(".menu-icon");
+        const mainContent = document.querySelector(".main-content");
+        const header = document.querySelector(".header");
+
+        // Open sidebar when page loads
+        sideBar.classList.add("Mo");
+        mainContent.style.marginLeft = "250px";
+        header.style.marginLeft = "250px";
+
+        // Handle sidebar toggle
+        menuIcon.addEventListener("click", function () {
+          sideBar.classList.toggle("Mo");
+          if (sideBar.classList.contains("Mo")) {
+            mainContent.style.marginLeft = "250px";
+            header.style.marginLeft = "250px";
+          } else {
+            mainContent.style.marginLeft = "0";
+            header.style.marginLeft = "0";
+          }
+        });
+
+        // Function to load and display students data
+        function loadStudentsData() {
+          const tableBody = document.getElementById("studentTableBody");
+          const students = JSON.parse(localStorage.getItem("students") || "[]");
+
+          // Clear existing table content
+          tableBody.innerHTML = "";
+
+          // Add students to table
+          students.forEach((student, index) => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${student.maSinhVien || ""}</td>
+            <td>${student.hoVaTen || ""}</td>
+            <td>${student.ngaySinh || ""}</td>
+            <td>${student.lop || ""}</td>
+            <td>${student.khoa || ""}</td>
+            <td class="actions">
+              <i class="fas fa-edit edit" data-id="${index}"></i>
+              <i class="fas fa-trash delete" data-id="${index}"></i>
+            </td>
+          `;
+            tableBody.appendChild(row);
+          });
+
+          // Add event listeners for edit and delete buttons
+          addActionListeners();
+        }
+
+        // Function to add event listeners to action buttons
+        function addActionListeners() {
+          // Handle edit actions
+          document.querySelectorAll(".edit").forEach(function (editIcon) {
+            editIcon.addEventListener("click", function () {
+              const studentIndex = this.getAttribute("data-id");
+              const students = JSON.parse(
+                localStorage.getItem("students") || "[]"
+              );
+              const student = students[studentIndex];
+
+              // Chuyển đến trang sinhVien.html với thông tin sinh viên cần sửa
+              localStorage.setItem("editingStudent", JSON.stringify(student));
+              localStorage.setItem("editingIndex", studentIndex);
+              window.location.href = "sinhVien.html?edit=true";
+            });
+          });
+
+          // Handle delete actions
+          document.querySelectorAll(".delete").forEach(function (deleteIcon) {
+            deleteIcon.addEventListener("click", function () {
+              if (confirm("Bạn có chắc chắn muốn xóa sinh viên này?")) {
+                const studentIndex = this.getAttribute("data-id");
+                const students = JSON.parse(
+                  localStorage.getItem("students") || "[]"
+                );
+                students.splice(studentIndex, 1);
+                localStorage.setItem("students", JSON.stringify(students));
+                loadStudentsData();
+              }
+            });
+          });
+        }
+
+        // Handle search functionality
+        document
+          .querySelector(".btn-search")
+          .addEventListener("click", function () {
+            const maSV = document
+              .getElementById("searchMaSV")
+              .value.toLowerCase();
+            const tenSV = document
+              .getElementById("searchTenSV")
+              .value.toLowerCase();
+            const ngaySinh = document.getElementById("searchNgaySinh").value;
+            const lop = document.getElementById("searchLop").value;
+
+            const students = JSON.parse(
+              localStorage.getItem("students") || "[]"
+            );
+
+            const filteredStudents = students.filter((student) => {
+              return (
+                (maSV === "" ||
+                  student.maSinhVien?.toLowerCase().includes(maSV)) &&
+                (tenSV === "" ||
+                  student.hoVaTen?.toLowerCase().includes(tenSV)) &&
+                (ngaySinh === "" || student.ngaySinh === ngaySinh) &&
+                (lop === "" || student.lop === lop)
+              );
+            });
+
+            displayFilteredStudents(filteredStudents);
+          });
+
+        // Function to display filtered students
+        function displayFilteredStudents(filteredStudents) {
+          const tableBody = document.getElementById("studentTableBody");
+          tableBody.innerHTML = "";
+
+          filteredStudents.forEach((student, index) => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${student.maSinhVien || ""}</td>
+            <td>${student.hoVaTen || ""}</td>
+            <td>${student.ngaySinh || ""}</td>
+            <td>${student.lop || ""}</td>
+            <td>${student.khoa || ""}</td>
+            <td class="actions">
+              <i class="fas fa-edit edit" data-id="${index}"></i>
+              <i class="fas fa-trash delete" data-id="${index}"></i>
+            </td>
+          `;
+            tableBody.appendChild(row);
+          });
+
+          addActionListeners();
+        }
+
+        // Handle reset button
+        document
+          .querySelector(".btn-reset")
+          .addEventListener("click", function () {
+            document
+              .querySelectorAll(".form-group input, .form-group select")
+              .forEach(function (element) {
+                element.value = "";
+              });
+            loadStudentsData();
+          });
+
+        // Handle export Excel button
+        document
+          .querySelector(".btn-export")
+          .addEventListener("click", function () {
+            const students = JSON.parse(
+              localStorage.getItem("students") || "[]"
+            );
+            // Implement Excel export functionality
+            alert("Tính năng xuất Excel sẽ được triển khai sau");
+          });
+
+        // Handle import Excel button
+        document
+          .querySelector(".btn-import")
+          .addEventListener("click", function () {
+            // Implement Excel import functionality
+            alert("Tính năng nhập Excel sẽ được triển khai sau");
+          });
+
+        // Listen for changes in localStorage
+        window.addEventListener("storage", function (e) {
+          if (e.key === "students") {
+            loadStudentsData();
+          }
+        });
+
+        // Check if we need to update the list (coming from sinhVien.html)
+        if (sessionStorage.getItem("updateStudents") === "true") {
+          loadStudentsData();
+          sessionStorage.removeItem("updateStudents");
+        }
+
+        // Initial load of students data
+        loadStudentsData();
+      });
+    </script>
+    <script src="assets/js/script.js"></script>
+  </body>
+</html>

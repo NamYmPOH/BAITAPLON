@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Login & Registration Form</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    body {
+      min-height: 100vh;
+      width: 100%;
+      background: #3498DB;
+    }
+    .container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      max-width: 430px;
+      width: 100%;
+      background: #fff;
+      border-radius: 7px;
+      box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+    }
+    .container .registration {
+      display: none;
+    }
+    #check:checked ~ .registration {
+      display: block;
+    }
+    #check:checked ~ .login {
+      display: none;
+    }
+    #check {
+      display: none;
+    }
+    .container .form {
+      padding: 2rem;
+    }
+    .form header {
+      font-size: 2rem;
+      font-weight: 500;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    .form input {
+      height: 60px;
+      width: 100%;
+      padding: 0 15px;
+      font-size: 17px;
+      margin-bottom: 1.3rem;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      outline: none;
+    }
+    .form input:focus {
+      box-shadow: 0 1px 0 rgba(0,0,0,0.2);
+    }
+    .form a {
+      font-size: 16px;
+      color: #3498DB;
+      text-decoration: none;
+    }
+    .form a:hover {
+      text-decoration: underline;
+    }
+    .form input.button {
+      color: #fff;
+      background: #337AB7;
+      font-size: 1.2rem;
+      font-weight: 500;
+      letter-spacing: 1px;
+      margin-top: 1.7rem;
+      cursor: pointer;
+      transition: 0.4s;
+    }
+    .form input.button:hover {
+      background: #3498DB;
+    }
+    .signup {
+      font-size: 17px;
+      text-align: center;
+    }
+    .signup label {
+      color: #3498DB;
+      cursor: pointer;
+    }
+    .signup label:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <input type="checkbox" id="check">
+    <div class="login form">
+      <header>Login</header>
+      <form id="loginForm" onsubmit="return validateLogin()">
+        <input type="text" id="loginEmail" placeholder="Điền email của bạn" required>
+        <input type="password" id="loginPassword" placeholder="Điền mật khẩu của bạn" required>
+        <a href="#">Quên mật khẩu?</a>
+        <input type="submit" class="button" value="Login">
+      </form>
+      <div class="signup">
+        <span class="signup">Don't have an account? <label for="check">Signup</label></span>
+      </div>
+    </div>
+    <div class="registration form">
+      <header>Signup</header>
+      <form id="signupForm" onsubmit="return validateSignup()">
+        <input type="text" id="signupEmail" placeholder="Điền email của bạn" required>
+        <input type="password" id="signupPassword" placeholder="Mật khẩu mới" required>
+        <input type="password" id="confirmPassword" placeholder="Xác nhận mật khẩu" required>
+        <input type="submit" class="button" value="Signup">
+      </form>
+      <div class="signup">
+        <span class="signup">Already have an account? <label for="check">Login</label></span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function validateLogin() {
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+
+      // Thực hiện kiểm tra email và mật khẩu ở đây
+      if (!email || !password) {
+        alert("Vui lòng điền đầy đủ thông tin!");
+        return false;
+      }
+      // Gửi dữ liệu đến server
+      alert("Đăng nhập thành công!");
+      return false; // Chặn hành động gửi form để xem thông báo
+    }
+
+    function validateSignup() {
+      const email = document.getElementById('signupEmail').value;
+      const password = document.getElementById('signupPassword').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+
+      if (!email || !password || !confirmPassword) {
+        alert("Vui lòng điền đầy đủ thông tin!");
+        return false;
+      }
+      if (password !== confirmPassword) {
+        alert("Mật khẩu không khớp!");
+        return false;
+      }
+      // Gửi dữ liệu đến server
+      alert("Đăng ký thành công!");
+      return false; // Chặn hành động gửi form để xem thông báo
+    }
+// Định nghĩa thông tin đăng nhập của admin
+const adminEmail = "admin"; // Thay thế bằng email admin của bạn
+  const adminPassword = "123"; // Thay thế bằng mật khẩu admin của bạn
+
+  function validateLogin() {
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+
+    // Kiểm tra xem email và mật khẩu đã được điền đầy đủ chưa
+    if (!email || !password) {
+      alert("Vui lòng điền đầy đủ thông tin!");
+      return false;
+    }
+
+    // Kiểm tra thông tin đăng nhập với thông tin của admin
+    if (email === adminEmail && password === adminPassword) {
+      alert("Đăng nhập thành công!");
+      // Chuyển hướng đến file index.html
+      window.location.href = "index.html"; // Đường dẫn đến file index
+      return false; // Ngăn chặn việc gửi form
+    } else {
+      alert("Email hoặc mật khẩu không đúng!");
+      return false; // Ngăn chặn việc gửi form
+    }
+  }
+
+  function validateSignup() {
+    const email = document.getElementById('signupEmail').value;
+    const password = document.getElementById('signupPassword').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+
+    if (!email || !password || !confirmPassword) {
+      alert("Vui lòng điền đầy đủ thông tin!");
+      return false;
+    }
+    if (password !== confirmPassword) {
+      alert("Mật khẩu không khớp!");
+      return false;
+    }
+    // Gửi dữ liệu đến server
+    alert("Đăng ký thành công!");
+    return false; // Ngăn chặn việc gửi form để xem thông báo
+  }
+  </script>
+</body>
+</html>

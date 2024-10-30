@@ -1,0 +1,237 @@
+<html>
+<head>
+    <title>Danh sách môn học</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f1f1f1;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: 50px auto;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        h2 {
+            margin-top: 0;
+        }
+        .search-bar {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        .search-bar input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px 0 0 5px;
+        }
+        .search-bar button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #00aaff;
+            color: #fff;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+        }
+        .add-new {
+            background-color: #28a745;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            float: right;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f9f9f9;
+        }
+        .actions {
+            display: flex;
+            justify-content: center;
+        }
+        .actions button {
+            background-color: #00aaff;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            margin: 0 5px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            padding-top: 60px;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 500px; /* Could be more or less, depending on screen size */
+            border-radius: 5px;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Danh sách môn học</h2>
+        <div class="search-bar">
+            <input type="text" placeholder="Tìm tên môn học hoặc mã ...">
+            <button>Tìm kiếm</button>
+        </div>
+        <button class="add-new" onclick="openModal()">Thêm mới</button>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Mã môn học</th>
+                    <th>Tên môn học</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody id="subjectTableBody">
+                <!-- Subject rows will be inserted here -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal for adding new subject -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Thêm mới thông môn học</h2>
+            <div class="form-group">
+                <label for="maMonHoc">Mã môn học <span class="required">*</span></label>
+                <input type="text" id="maMonHoc" placeholder="Mã môn học">
+            </div>
+            <div class="form-group">
+                <label for="tenMonHoc">Tên môn học <span class="required">*</span></label>
+                <input type="text" id="tenMonHoc" placeholder="Tên môn học">
+            </div>
+            <div class="buttons">
+                <button class="save" onclick="saveSubject()"><i class="fas fa-save"></i> Lưu thông tin</button>
+                <button class="cancel" onclick="closeModal()"><i class="fas fa-times"></i> Hủy bỏ</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let subjects = [
+            { id: 6, maMonHoc: 'KINHTE', tenMonHoc: 'Quản lý tài chính 23' },
+            { id: 5, maMonHoc: 'VANHOC', tenMonHoc: 'Văn Học' },
+            { id: 4, maMonHoc: 'TOANCAOCAP', tenMonHoc: 'Toán cao cấp' },
+            { id: 3, maMonHoc: 'TINHOC', tenMonHoc: 'Tên môn học' },
+        ];
+
+        function renderSubjects() {
+            const tableBody = document.getElementById('subjectTableBody');
+            tableBody.innerHTML = ''; // Clear previous entries
+            subjects.forEach(subject => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${subject.id}</td>
+                    <td>${subject.maMonHoc}</td>
+                    <td>${subject.tenMonHoc}</td>
+                    <td class="actions">
+                        <button onclick="editSubject(${subject.id})"><i class="fas fa-edit"></i></button>
+                        <button onclick="deleteSubject(${subject.id})"><i class="fas fa-trash"></i></button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        function openModal() {
+            document.getElementById('myModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('myModal').style.display = 'none';
+            clearModalFields();
+        }
+
+        function clearModalFields() {
+            document.getElementById('maMonHoc').value = '';
+            document.getElementById('tenMonHoc').value = '';
+        }
+
+        function saveSubject() {
+            const maMonHoc = document.getElementById('maMonHoc').value.trim();
+            const tenMonHoc = document.getElementById('tenMonHoc').value.trim();
+
+            // Validation
+            if (!maMonHoc || !tenMonHoc) {
+                alert('Vui lòng nhập đầy đủ thông tin!');
+                return;
+            }
+
+            const newSubject = {
+                id: subjects.length + 1,
+                maMonHoc,
+                tenMonHoc
+            };
+
+            subjects.push(newSubject);
+            renderSubjects();
+            closeModal();
+            alert('Thông môn học đã được lưu thành công!');
+        }
+
+        function deleteSubject(id) {
+            subjects = subjects.filter(subject => subject.id !== id);
+            renderSubjects();
+            alert('Môn học đã được xóa thành công!');
+        }
+
+        function editSubject(id) {
+            const subject = subjects.find(s => s.id === id);
+            if (subject) {
+                document.getElementById('maMonHoc').value = subject.maMonHoc;
+                document.getElementById('tenMonHoc').value = subject.tenMonHoc;
+                openModal();
+            }
+        }
+
+        // Initial render of subjects
+        renderSubjects();
+    </script>
+</body>
+</html>

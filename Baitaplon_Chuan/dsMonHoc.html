@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thêm mới thông tin monHoc</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+      body {
+        display: inline;
+      }
+
+      /* Main content styles */
+      .main-content {
+        flex: 1;
+        padding: 100px 20px 20px;
+        margin-left: 0;
+        transition: margin-left 0.5s;
+      }
+      .sidebar.Mo ~ .main-content {
+        margin-left: 250px;
+      }
+
+      /* Container styles */
+      .container {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Form styles */
+      .form-group {
+        margin-bottom: 15px;
+      }
+      .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+      .form-group input,
+      .form-group select {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+      .form-group select:focus {
+        outline: none;
+        border-color: #007bff;
+      }
+      .error-message {
+        color: red;
+        font-size: 12px;
+        display: none;
+      }
+      .button-group {
+        margin-top: 20px;
+      }
+      .save-btn,
+      .cancel-btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+      }
+      .save-btn {
+        background-color: #28a745;
+        color: white;
+      }
+      .cancel-btn {
+        background-color: #dc3545;
+        color: white;
+        margin-left: 10px;
+      }
+      .save-btn i,
+      .cancel-btn i {
+        font-size: 14px;
+      }
+
+      /* Table styles */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+      th,
+      td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+      th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+      }
+      tr:hover {
+        background-color: #f5f5f5;
+      }
+
+      /* Button */
+      .action-btn {
+        padding: 5px 10px;
+        margin: 0 5px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        color: white;
+      }
+
+      .edit-btn {
+        background-color: #ffc107;
+      }
+
+      .delete-btn {
+        background-color: #dc3545;
+      }
+
+      /* CSS cho modal */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+      }
+
+      .modal-content {
+        background-color: white;
+        margin: 15% auto;
+        padding: 20px;
+        width: 50%;
+        border-radius: 5px;
+      }
+
+      .close {
+        float: right;
+        cursor: pointer;
+        font-size: 24px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-header">Quản Lý SV</div>
+      <ul class="sidebar-menu">
+        <li>
+          <a href="index.html"><i class="fas fa-home"></i>Trang chủ</a>
+        </li>
+        <li>
+          <a href="dsKhoa.html"><i class="fas fa-university"></i>Khoa</a>
+        </li>
+        <li>
+          <a href="lop.html"><i class="fas fa-th-large"></i>Lớp</a>
+        </li>
+        <li>
+          <a href="sinhVien.html"><i class="fas fa-user-graduate"></i>Sinh viên</a>
+        </li>
+        <li>
+          <a href="dsSinhVien.html"
+            ><i class="fas fa-user-graduate"></i>Danh sách sinh viên</a
+          >
+        </li>
+        <li class="active">
+          <a href="#"><i class="fas fa-folder"></i>Quản lý môn học</a>
+        </li>
+        <li>
+          <a href="dsDiem.html"><i class="fas fa-folder"></i>Quản lý điểm</a>
+        </li>
+        <li>
+          <a href="dsVaiTro.html"
+            ><i class="fas fa-users"></i>Danh sách vai trò</a
+          >
+        </li>
+        <li>
+          <a href="capNhat.html"
+            ><i class="fas fa-user-tag"></i>Cập nhật vai trò</a
+          >
+        </li>
+        <li class="logout-item">
+          <a href="login.html" class="logout-link">
+            <i class="fas fa-sign-out-alt"></i>Đăng xuất
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Header -->
+    <div class="header">
+      <i class="fas fa-bars menu-icon"></i>
+      <h1>Thêm mới thông tin monHoc</h1>
+    </div>
+
+    <!-- Main content -->
+    <div class="main-content">
+      <div class="container">
+        <form id="monHoc-form">
+          <div class="form-group">
+            <label for="ma-monHoc">Mã môn học:</label>
+            <input type="text" id="ma-monHoc" required />
+            <span id="ma-monHoc-error" class="error-message"
+              >Vui lòng nhập Mã môn học</span
+            >
+          </div>
+          <div class="form-group">
+            <label for="ten-monHoc">Tên môn học:</label>
+            <select id="ten-monHoc" required>
+              <option value="">-- Chọn môn học --</option>
+              <option value="Điện tử viễn thông quốc tế">Toán cao cấp</option>
+              <option value="Giải tích 2">Giải tích 2</option>
+              <option value="Lập Trình Web">Lập Trình Web</option>
+              <option value="Toán Rời Rạc">Cơ khí</option>
+              <option value="Kinh Tế Chính Trị">Kinh Tế Chính Trị</option>
+              <option value="Cấu Trúc Dữ Liệu & Giải Thuật">
+                Cấu Trúc Dữ Liệu & Giải Thuật
+              </option>
+              <option value="Tin Học Đại Cương">Tin Học Đại Cương</option>
+              <option value="Tư Tưởng Hồ Chí Minh">Tư Tưởng Hồ Chí Minh</option>
+              <option value="An Toàn Thông Tin">An Toàn Thông Tin</option>
+              <option value="Giải Tích Số">Giải Tích Số</option>
+            </select>
+            <span id="ten-monHoc-error" class="error-message"
+              >Vui lòng chọn Tên môn học</span
+            >
+          </div>
+          <div class="button-group">
+            <button type="submit" class="save-btn">
+              <i class="fas fa-save"></i> Lưu
+            </button>
+            <button type="button" class="cancel-btn">
+              <i class="fas fa-times"></i> Hủy
+            </button>
+          </div>
+        </form>
+
+        <!-- Table -->
+        <table id="monHoc-table">
+          <thead>
+            <tr>
+              <th>STT</th>
+              <th>Mã môn học</th>
+              <th>Tên môn học</th>
+              <th>Thao tác</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Data will be inserted here by JavaScript -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Modal for editing -->
+    <div id="editModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Sửa thông tin monHoc</h2>
+        <form id="edit-form">
+          <div class="form-group">
+            <label for="edit-ma-monHoc">Mã môn học:</label>
+            <input type="text" id="edit-ma-monHoc" required />
+          </div>
+          <div class="form-group">
+            <label for="edit-ten-monHoc">Tên môn học:</label>
+          </div>
+          <input type="hidden" id="edit-index" />
+          <button type="submit" class="save-btn">
+            <i class="fas fa-save"></i> Cập nhật
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("monHoc-form");
+        const editForm = document.getElementById("edit-form");
+        const modal = document.getElementById("editModal");
+        const closeBtn = document.querySelector(".close");
+        let currentEditIndex = -1;
+
+        loadTableData();
+
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const mamonHoc = document.getElementById("ma-monHoc").value.trim();
+          const tenmonHoc = document.getElementById("ten-monHoc").value;
+
+          if (mamonHoc && tenmonHoc) {
+            savemonHoc({ mamonHoc, tenmonHoc });
+            form.reset();
+            loadTableData();
+          }
+        });
+
+        editForm.addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const mamonHoc = document
+            .getElementById("edit-ma-monHoc")
+            .value.trim();
+          const tenmonHoc = document.getElementById("edit-ten-monHoc").value;
+          const index = document.getElementById("edit-index").value;
+
+          if (mamonHoc && tenmonHoc) {
+            updatemonHoc(parseInt(index), { mamonHoc, tenmonHoc });
+            modal.style.display = "none";
+            loadTableData();
+          }
+        });
+
+        closeBtn.onclick = function () {
+          modal.style.display = "none";
+        };
+
+        window.onclick = function (event) {
+          if (event.target == modal) {
+            modal.style.display = "none";
+          }
+        };
+
+        // Sidebar toggle functionality
+        const sideBar = document.querySelector(".sidebar");
+        const menuIcon = document.querySelector(".menu-icon");
+        const mainContent = document.querySelector(".main-content");
+        const header = document.querySelector(".header");
+
+        // Open sidebar when page loads
+        sideBar.classList.add("Mo");
+        mainContent.style.marginLeft = "250px";
+        header.style.marginLeft = "250px";
+
+        // Handle sidebar toggle
+        menuIcon.addEventListener("click", function () {
+          sideBar.classList.toggle("Mo");
+
+          if (sideBar.classList.contains("Mo")) {
+            mainContent.style.marginLeft = "250px";
+            header.style.marginLeft = "250px";
+          } else {
+            mainContent.style.marginLeft = "0";
+            header.style.marginLeft = "0";
+          }
+        });
+
+        // Functions for table operations
+        function savemonHoc(monHoc) {
+          let monHocList = JSON.parse(
+            localStorage.getItem("monHocList") || "[]"
+          );
+          monHocList.push(monHoc);
+          localStorage.setItem("monHocList", JSON.stringify(monHocList));
+        }
+
+        function updatemonHoc(index, monHoc) {
+          let monHocList = JSON.parse(
+            localStorage.getItem("monHocList") || "[]"
+          );
+          monHocList[index] = monHoc;
+          localStorage.setItem("monHocList", JSON.stringify(monHocList));
+        }
+
+        function deletemonHoc(index) {
+          if (confirm("Bạn có chắc chắn muốn xóa monHoc này?")) {
+            let monHocList = JSON.parse(
+              localStorage.getItem("monHocList") || "[]"
+            );
+            monHocList.splice(index, 1);
+            localStorage.setItem("monHocList", JSON.stringify(monHocList));
+            loadTableData();
+          }
+        }
+
+        function loadTableData() {
+          const tableBody = document.querySelector("#monHoc-table tbody");
+          const monHocList = JSON.parse(
+            localStorage.getItem("monHocList") || "[]"
+          );
+
+          // Clear existing table rows
+          tableBody.innerHTML = "";
+
+          // Add new rows
+          monHocList.forEach((monHoc, index) => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+      <td>${index + 1}</td>
+      <td>${monHoc.mamonHoc}</td>
+      <td>${monHoc.tenmonHoc}</td>
+      <td>
+        <button onclick="editmonHoc(${index})" class="action-btn edit-btn">
+          <i class="fas fa-edit"></i> Sửa
+        </button>
+        <button onclick="deletemonHoc(${index})" class="action-btn delete-btn">
+          <i class="fas fa-trash"></i> Xóa
+        </button>
+      </td>
+    `;
+            tableBody.appendChild(row);
+          });
+        }
+
+        // Make functions globally available
+        window.editmonHoc = function (index) {
+          let monHocList = JSON.parse(
+            localStorage.getItem("monHocList") || "[]"
+          );
+          let monHoc = monHocList[index];
+
+          document.getElementById("edit-ma-monHoc").value = monHoc.mamonHoc;
+          document.getElementById("edit-ten-monHoc").value = monHoc.tenmonHoc;
+          document.getElementById("edit-index").value = index;
+
+          modal.style.display = "block";
+        };
+
+        window.deletemonHoc = deletemonHoc;
+
+        // Cancel button handler
+        document
+          .querySelector(".cancel-btn")
+          .addEventListener("click", function () {
+            form.reset();
+            document.getElementById("ma-monHoc-error").style.display = "none";
+            document.getElementById("ten-monHoc-error").style.display = "none";
+          });
+      });
+    </script>
+    <script src="assets/js/script.js"></script>
+  </body>
+</html>

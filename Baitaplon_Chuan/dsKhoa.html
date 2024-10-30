@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thêm mới thông tin khoa</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+      body {
+        display: inline;
+      }
+
+      /* Main content styles */
+      .main-content {
+        flex: 1;
+        padding: 100px 20px 20px;
+        margin-left: 0;
+        transition: margin-left 0.5s;
+      }
+      .sidebar.Mo ~ .main-content {
+        margin-left: 250px;
+      }
+
+      /* Container styles */
+      .container {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Form styles */
+      .form-group {
+        margin-bottom: 15px;
+      }
+      .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+      .form-group input,
+      .form-group select {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+      .form-group select:focus {
+        outline: none;
+        border-color: #007bff;
+      }
+      .error-message {
+        color: red;
+        font-size: 12px;
+        display: none;
+      }
+      .button-group {
+        margin-top: 20px;
+      }
+      .save-btn,
+      .cancel-btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+      }
+      .save-btn {
+        background-color: #28a745;
+        color: white;
+      }
+      .cancel-btn {
+        background-color: #dc3545;
+        color: white;
+        margin-left: 10px;
+      }
+      .save-btn i,
+      .cancel-btn i {
+        font-size: 14px;
+      }
+
+      /* Table styles */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+      th,
+      td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+      th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+      }
+      tr:hover {
+        background-color: #f5f5f5;
+      }
+
+      /* Button */
+      .action-btn {
+        padding: 5px 10px;
+        margin: 0 5px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        color: white;
+      }
+
+      .edit-btn {
+        background-color: #ffc107;
+      }
+
+      .delete-btn {
+        background-color: #dc3545;
+      }
+
+      /* CSS cho modal */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+      }
+
+      .modal-content {
+        background-color: white;
+        margin: 15% auto;
+        padding: 20px;
+        width: 50%;
+        border-radius: 5px;
+      }
+
+      .close {
+        float: right;
+        cursor: pointer;
+        font-size: 24px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-header">Quản Lý SV</div>
+      <ul class="sidebar-menu">
+        <li>
+          <a href="index.html"><i class="fas fa-home"></i>Trang chủ</a>
+        </li>
+        <li class="active">
+          <a href="dsKhoa.html"><i class="fas fa-university"></i>Khoa</a>
+        </li>
+        <li>
+          <a href="lop.html"><i class="fas fa-th-large"></i>Lớp</a>
+        </li>
+        <li>
+          <a href="sinhVien.html"><i class="fas fa-user-graduate"></i>Sinh viên</a>
+        </li>
+        <li>
+          <a href="dsSinhVien.html"
+            ><i class="fas fa-user-graduate"></i>Danh sách sinh viên</a
+          >
+        </li>
+        <li>
+          <a href="dsMonHoc.html"
+            ><i class="fas fa-folder"></i>Quản lý môn học</a
+          >
+        </li>
+        <li>
+          <a href="dsDiem.html"><i class="fas fa-folder"></i>Quản lý điểm</a>
+        </li>
+        <li>
+          <a href="dsVaiTro.html"
+            ><i class="fas fa-users"></i>Danh sách vai trò</a
+          >
+        </li>
+        <li>
+          <a href="capNhat.html"
+            ><i class="fas fa-user-tag"></i>Cập nhật vai trò</a
+          >
+        </li>
+        <li class="logout-item">
+          <a href="login.html" class="logout-link">
+            <i class="fas fa-sign-out-alt"></i>Đăng xuất
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Header -->
+    <div class="header">
+      <i class="fas fa-bars menu-icon"></i>
+      <h1>Thêm mới thông tin khoa</h1>
+    </div>
+
+    <!-- Main content -->
+    <div class="main-content">
+      <div class="container">
+        <form id="khoa-form">
+          <div class="form-group">
+            <label for="ma-khoa">Mã khoa:</label>
+            <input type="text" id="ma-khoa" required />
+            <span id="ma-khoa-error" class="error-message"
+              >Vui lòng nhập mã khoa</span
+            >
+          </div>
+          <div class="form-group">
+            <label for="ten-khoa">Tên khoa:</label>
+            <select id="ten-khoa" required>
+              <option value="">-- Chọn khoa --</option>
+              <option value="Điện tử viễn thông quốc tế">
+                Điện tử viễn thông quốc tế
+              </option>
+              <option value="Công nghệ thông tin">Công nghệ thông tin</option>
+              <option value="Công trình">Công trình</option>
+              <option value="Cơ khí">Cơ khí</option>
+              <option value="Logistics">Logistics</option>
+              <option value="Kinh tế">Kinh tế</option>
+              <option value="Quản trị kinh doanh">Quản trị kinh doanh</option>
+              <option value="Kỹ thuật công trình">Kỹ thuật công trình</option>
+              <option value="Hệ thống thông tin">Hệ thống thông tin</option>
+              <option value="Kỹ thuật phần mềm">Kỹ thuật phần mềm</option>
+            </select>
+            <span id="ten-khoa-error" class="error-message"
+              >Vui lòng chọn tên khoa</span
+            >
+          </div>
+          <div class="button-group">
+            <button type="submit" class="save-btn">
+              <i class="fas fa-save"></i> Lưu
+            </button>
+            <button type="button" class="cancel-btn">
+              <i class="fas fa-times"></i> Hủy
+            </button>
+          </div>
+        </form>
+
+        <!-- Table -->
+        <table id="khoa-table">
+          <thead>
+            <tr>
+              <th>STT</th>
+              <th>Mã khoa</th>
+              <th>Tên khoa</th>
+              <th>Thao tác</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Modal for editing -->
+    <div id="editModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Sửa thông tin khoa</h2>
+        <form id="edit-form">
+          <div class="form-group">
+            <label for="edit-ma-khoa">Mã khoa:</label>
+            <input type="text" id="edit-ma-khoa" required />
+          </div>
+          <div class="form-group">
+            <label for="edit-ten-khoa">Tên khoa:</label>
+          </div>
+          <input type="hidden" id="edit-index" />
+          <button type="submit" class="save-btn">
+            <i class="fas fa-save"></i> Cập nhật
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("khoa-form");
+        const editForm = document.getElementById("edit-form");
+        const modal = document.getElementById("editModal");
+        const closeBtn = document.querySelector(".close");
+        let currentEditIndex = -1;
+
+        loadTableData();
+
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const maKhoa = document.getElementById("ma-khoa").value.trim();
+          const tenKhoa = document.getElementById("ten-khoa").value;
+
+          if (maKhoa && tenKhoa) {
+            saveKhoa({ maKhoa, tenKhoa });
+            form.reset();
+            loadTableData();
+          }
+        });
+
+        editForm.addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const maKhoa = document.getElementById("edit-ma-khoa").value.trim();
+          const tenKhoa = document.getElementById("edit-ten-khoa").value;
+          const index = document.getElementById("edit-index").value;
+
+          if (maKhoa && tenKhoa) {
+            updateKhoa(parseInt(index), { maKhoa, tenKhoa });
+            modal.style.display = "none";
+            loadTableData();
+          }
+        });
+
+        closeBtn.onclick = function () {
+          modal.style.display = "none";
+        };
+
+        window.onclick = function (event) {
+          if (event.target == modal) {
+            modal.style.display = "none";
+          }
+        };
+
+        // Sidebar toggle functionality
+        const sideBar = document.querySelector(".sidebar");
+        const menuIcon = document.querySelector(".menu-icon");
+        const mainContent = document.querySelector(".main-content");
+        const header = document.querySelector(".header");
+
+        // Open sidebar when page loads
+        sideBar.classList.add("Mo");
+        mainContent.style.marginLeft = "250px";
+        header.style.marginLeft = "250px";
+
+        // Handle sidebar toggle
+        menuIcon.addEventListener("click", function () {
+          sideBar.classList.toggle("Mo");
+
+          if (sideBar.classList.contains("Mo")) {
+            mainContent.style.marginLeft = "250px";
+            header.style.marginLeft = "250px";
+          } else {
+            mainContent.style.marginLeft = "0";
+            header.style.marginLeft = "0";
+          }
+        });
+
+        // Functions for table operations
+        function saveKhoa(khoa) {
+          let khoaList = JSON.parse(localStorage.getItem("khoaList") || "[]");
+          khoaList.push(khoa);
+          localStorage.setItem("khoaList", JSON.stringify(khoaList));
+        }
+
+        function updateKhoa(index, khoa) {
+          let khoaList = JSON.parse(localStorage.getItem("khoaList") || "[]");
+          khoaList[index] = khoa;
+          localStorage.setItem("khoaList", JSON.stringify(khoaList));
+        }
+
+        function deleteKhoa(index) {
+          if (confirm("Bạn có chắc chắn muốn xóa khoa này?")) {
+            let khoaList = JSON.parse(localStorage.getItem("khoaList") || "[]");
+            khoaList.splice(index, 1);
+            localStorage.setItem("khoaList", JSON.stringify(khoaList));
+            loadTableData();
+          }
+        }
+
+        function loadTableData() {
+          const tableBody = document.querySelector("#khoa-table tbody");
+          const khoaList = JSON.parse(localStorage.getItem("khoaList") || "[]");
+
+          // Clear existing table rows
+          tableBody.innerHTML = "";
+
+          // Add new rows
+          khoaList.forEach((khoa, index) => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+      <td>${index + 1}</td>
+      <td>${khoa.maKhoa}</td>
+      <td>${khoa.tenKhoa}</td>
+      <td>
+        <button onclick="editKhoa(${index})" class="action-btn edit-btn">
+          <i class="fas fa-edit"></i> Sửa
+        </button>
+        <button onclick="deleteKhoa(${index})" class="action-btn delete-btn">
+          <i class="fas fa-trash"></i> Xóa
+        </button>
+      </td>
+    `;
+            tableBody.appendChild(row);
+          });
+        }
+
+        // Make functions globally available
+        window.editKhoa = function (index) {
+          let khoaList = JSON.parse(localStorage.getItem("khoaList") || "[]");
+          let khoa = khoaList[index];
+
+          document.getElementById("edit-ma-khoa").value = khoa.maKhoa;
+          document.getElementById("edit-ten-khoa").value = khoa.tenKhoa;
+          document.getElementById("edit-index").value = index;
+
+          modal.style.display = "block";
+        };
+
+        window.deleteKhoa = deleteKhoa;
+
+        // Cancel button handler
+        document
+          .querySelector(".cancel-btn")
+          .addEventListener("click", function () {
+            form.reset();
+            document.getElementById("ma-khoa-error").style.display = "none";
+            document.getElementById("ten-khoa-error").style.display = "none";
+          });
+      });
+    </script>
+    <script src="assets/js/script.js"></script>
+  </body>
+</html>

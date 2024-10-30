@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thông tin Sinh viên</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+    />
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <style>
+      body {
+        display: inline;
+      }
+
+      .main-content {
+        flex: 1;
+        padding: 100px 20px 20px;
+        margin-left: 0;
+        transition: margin-left 0.5s;
+      }
+      .sidebar.Mo ~ .main-content {
+        margin-left: 250px;
+      }
+
+      .container {
+        max-width: 1000px;
+        margin: 0 auto;
+        background-color: white;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .form-group {
+        margin-bottom: 15px;
+      }
+      .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+      .form-group input[type="text"],
+      .form-group input[type="file"],
+      .form-group select,
+      .form-group textarea {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+      .form-group .file-input {
+        display: flex;
+        align-items: center;
+      }
+      .form-group .file-input span {
+        margin-left: 10px;
+        color: #666;
+      }
+      .form-group .image-preview {
+        width: 100%;
+        height: 200px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        margin-top: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #f8f9fa;
+      }
+      .form-actions {
+        margin-top: 20px;
+        text-align: center;
+      }
+      .form-actions button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        margin: 0 5px;
+      }
+      .save-btn {
+        background-color: #007bff;
+        color: white;
+      }
+      .cancel-btn {
+        background-color: #dc3545;
+        color: white;
+      }
+      .error-message {
+        color: #dc3545;
+        font-size: 12px;
+        margin-top: 5px;
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="sidebar">
+      <div class="sidebar-header">Quản Lý SV</div>
+      <ul class="sidebar-menu">
+        <li>
+          <a href="index.html"><i class="fas fa-home"></i>Trang chủ</a>
+        </li>
+        <li>
+          <a href="dsKhoa.html"><i class="fas fa-university"></i>Khoa</a>
+        </li>
+        <li>
+          <a href="lop.html"><i class="fas fa-th-large"></i>Lớp</a>
+        </li>
+        <li class="active">
+          <a href="sinhVien.html"
+            ><i class="fas fa-user-graduate"></i>Sinh viên</a
+          >
+        </li>
+        <li>
+          <a href="dsSinhVien.html"
+            ><i class="fas fa-list"></i>Danh sách sinh viên</a
+          >
+        </li>
+        <li>
+          <a href="#"><i class="fas fa-book"></i>Quản lý môn học</a>
+        </li>
+        <li>
+          <a href="#"><i class="fas fa-chart-bar"></i>Quản lý điểm</a>
+        </li>
+        <li>
+          <a href="dsVaiTro.html"
+            ><i class="fas fa-users"></i>Danh sách vai trò</a
+          >
+        </li>
+        <li>
+          <a href="capNhat.html"
+            ><i class="fas fa-user-tag"></i>Cập nhật vai trò</a
+          >
+        </li>
+        <li class="logout-item">
+          <a href="login.html" class="logout-link">
+            <i class="fas fa-sign-out-alt"></i>Đăng xuất
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="header">
+      <i class="fas fa-bars menu-icon"></i>
+      <h1 id="pageTitle">Thêm Mới Thông Tin Sinh Viên</h1>
+    </div>
+
+    <div class="main-content">
+      <div class="container">
+        <form id="student-form">
+          <div class="form-group">
+            <label for="so-dang-ky">Số đăng ký *</label>
+            <input type="text" id="so-dang-ky" required />
+            <span class="error-message" id="so-dang-ky-error"
+              >Vui lòng nhập số đăng ký</span
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="anh-sinh-vien">Ảnh sinh viên</label>
+            <div class="file-input">
+              <input type="file" id="anh-sinh-vien" accept="image/*" />
+              <span>Không có tệp nào được chọn</span>
+            </div>
+            <div class="image-preview">
+              <span>Chọn tệp</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="ma-sinh-vien">Mã sinh viên *</label>
+            <input type="text" id="ma-sinh-vien" required />
+            <span class="error-message" id="ma-sinh-vien-error"
+              >Vui lòng nhập mã sinh viên</span
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="ho-va-ten">Họ và tên *</label>
+            <input type="text" id="ho-va-ten" required />
+            <span class="error-message" id="ho-va-ten-error"
+              >Vui lòng nhập họ và tên</span
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="gioi-tinh">Giới tính</label>
+            <select id="gioi-tinh">
+              <option value="">Chọn giới tính</option>
+              <option value="Nam">Nam</option>
+              <option value="Nữ">Nữ</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="ngay-sinh">Ngày sinh *</label>
+            <input type="text" id="ngay-sinh" required />
+            <span class="error-message" id="ngay-sinh-error"
+              >Vui lòng chọn ngày sinh</span
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="lop">Lớp</label>
+            <select id="lop">
+              <option value="">Chọn lớp</option>
+              <option value="Kinh tế tài chính ">Kinh tế tài chính</option>
+              <option value="Công nghệ thông tin">Công nghệ thông tin</option>
+              <option value="Logistic">Logistic</option>
+              <option value="Du lịch">Du lịch</option>
+              <option value="Cơ khí">Cơ khí</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="khoa">Khoa</label>
+            <select id="khoa">
+              <option value="">Chọn khoa</option>
+              <option value="Khoa Kinh tế">Khoa Kinh tế</option>
+              <option value="Khoa CNTT">Khoa CNTT</option>
+              <option value="Khoa Du lịch">Khoa Du lịch</option>
+              <option value="Khoa Cơ khí">Khoa Cơ khí</option>
+            </select>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="save-btn">
+              <i class="fas fa-save"></i> Lưu thông tin
+            </button>
+            <button type="button" class="cancel-btn">
+              <i class="fas fa-times"></i> Hủy bỏ
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Initialize variables
+        const form = document.getElementById("student-form");
+        const imageInput = document.getElementById("anh-sinh-vien");
+        const imagePreview = document.querySelector(".image-preview");
+        const fileNameSpan = document.querySelector(".file-input span");
+        const sideBar = document.querySelector(".sidebar");
+        const menuIcon = document.querySelector(".menu-icon");
+        const mainContent = document.querySelector(".main-content");
+        const header = document.querySelector(".header");
+        let isEditMode = false;
+        let editingIndex = -1;
+
+        // Initialize flatpickr for date input
+        flatpickr("#ngay-sinh", {
+          dateFormat: "d/m/Y",
+          locale: "vn",
+        });
+
+        // Check if we're in edit mode
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get("edit") === "true") {
+          isEditMode = true;
+          const editingStudent = JSON.parse(
+            localStorage.getItem("editingStudent") || "{}"
+          );
+          editingIndex = localStorage.getItem("editingIndex");
+          document.getElementById("pageTitle").textContent =
+            "Chỉnh Sửa Thông Tin Sinh Viên";
+          populateForm(editingStudent);
+        }
+
+        // Function to populate form with student data
+        function populateForm(student) {
+          document.getElementById("so-dang-ky").value = student.soDangKy || "";
+          document.getElementById("ma-sinh-vien").value =
+            student.maSinhVien || "";
+          document.getElementById("ho-va-ten").value = student.hoVaTen || "";
+          document.getElementById("gioi-tinh").value = student.gioiTinh || "";
+          document.getElementById("ngay-sinh").value = student.ngaySinh || "";
+          document.getElementById("lop").value = student.lop || "";
+          document.getElementById("khoa").value = student.khoa || "";
+        }
+
+        // Handle image preview
+        imageInput.addEventListener("change", function (e) {
+          const file = e.target.files[0];
+          if (file) {
+            fileNameSpan.textContent = file.name;
+            const reader = new FileReader();
+            reader.onload = function (e) {
+              imagePreview.innerHTML = `<img src="${e.target.result}" style="max-width: 100%; max-height: 100%;">`;
+            };
+            reader.readAsDataURL(file);
+          } else {
+            fileNameSpan.textContent = "Không có tệp nào được chọn";
+            imagePreview.innerHTML = "<span>Chọn tệp</span>";
+          }
+        });
+
+        // Form validation
+        function validateForm() {
+          let isValid = true;
+          const requiredFields = [
+            "so-dang-ky",
+            "ma-sinh-vien",
+            "ho-va-ten",
+            "ngay-sinh",
+          ];
+
+          requiredFields.forEach((fieldId) => {
+            const field = document.getElementById(fieldId);
+            const errorSpan = document.getElementById(`${fieldId}-error`);
+            if (!field.value.trim()) {
+              errorSpan.style.display = "block";
+              isValid = false;
+            } else {
+              errorSpan.style.display = "none";
+            }
+          });
+
+          return isValid;
+        }
+
+        // Handle form submission
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+          if (validateForm()) {
+            const formData = {
+              soDangKy: document.getElementById("so-dang-ky").value,
+              maSinhVien: document.getElementById("ma-sinh-vien").value,
+              hoVaTen: document.getElementById("ho-va-ten").value,
+              gioiTinh: document.getElementById("gioi-tinh").value,
+              ngaySinh: document.getElementById("ngay-sinh").value,
+              lop: document.getElementById("lop").value,
+              khoa: document.getElementById("khoa").value,
+            };
+
+            let students = JSON.parse(localStorage.getItem("students") || "[]");
+
+            if (isEditMode && editingIndex !== -1) {
+              students[editingIndex] = formData;
+              localStorage.removeItem("editingStudent");
+              localStorage.removeItem("editingIndex");
+            } else {
+              students.push(formData);
+            }
+
+            localStorage.setItem("students", JSON.stringify(students));
+            sessionStorage.setItem("updateStudents", "true");
+
+            alert(
+              isEditMode
+                ? "Cập nhật thông tin thành công!"
+                : "Lưu thông tin thành công!"
+            );
+            window.location.href = "dsSinhVien.html";
+          }
+        });
+
+        // Handle cancel button
+        document
+          .querySelector(".cancel-btn")
+          .addEventListener("click", function () {
+            if (confirm("Bạn có chắc chắn muốn hủy bỏ?")) {
+              window.location.href = "dsSinhVien.html";
+            }
+          });
+
+        // Open sidebar when page loads
+        sideBar.classList.add("Mo");
+        mainContent.style.marginLeft = "250px";
+        header.style.marginLeft = "250px";
+
+        // Handle sidebar toggle
+        menuIcon.addEventListener("click", function () {
+          sideBar.classList.toggle("Mo");
+          if (sideBar.classList.contains("Mo")) {
+            mainContent.style.marginLeft = "250px";
+            header.style.marginLeft = "250px";
+          } else {
+            mainContent.style.marginLeft = "0";
+            header.style.marginLeft = "0";
+          }
+        });
+      });
+    </script>
+    <script src="assets/js/script.js"></script>
+  </body>
+</html>

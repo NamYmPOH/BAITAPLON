@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Admin Dashboard</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+      body {
+        display: inline;
+      }
+      /* Cards */
+      .card {
+        display: inline-block;
+        width: 44%;
+        margin: 1%;
+        padding: 20px;
+        color: white;
+        border-radius: 5px;
+        position: relative;
+        text-decoration: none;
+      }
+
+      .card .number {
+        font-size: 36px;
+        font-weight: bold;
+      }
+
+      .card .title {
+        font-size: 18px;
+        margin-top: 10px;
+      }
+
+      .card .more {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        font-size: 14px;
+      }
+
+      .card.blue {
+        background-color: #1e90ff;
+      }
+      .card.green {
+        background-color: #28a745;
+      }
+      .card.orange {
+        background-color: #ff9800;
+      }
+      .card.red {
+        background-color: #f44336;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-header">Quản Lý SV</div>
+      <ul class="sidebar-menu">
+        <li class="active">
+          <a href="index.html"><i class="fas fa-home"></i>Trang chủ</a>
+        </li>
+        <li>
+          <a href="dsKhoa.html"><i class="fas fa-university"></i>Khoa</a>
+        </li>
+        <li>
+          <a href="lop.html"><i class="fas fa-th-large"></i>Lớp</a>
+        </li>
+        <li>
+          <a href="dsSinhVien.html"
+            ><i class="fas fa-user-graduate"></i>Sinh viên</a
+          >
+        </li>
+        <li>
+          <a href="dsSinhVien.html"
+            ><i class="fas fa-user-graduate"></i>Danh sách sinh viên</a
+          >
+        </li>
+        <li>
+          <a href="dsMonHoc.html"><i class="fas fa-book"></i>Quản lý môn học</a>
+        </li>
+        <li>
+          <a href="dsDiem.html"
+            ><i class="fas fa-graduation-cap"></i>Quản lý điểm</a
+          >
+        </li>
+        <li>
+          <a href="dsVaiTro.html"
+            ><i class="fas fa-users"></i>Danh sách thành viên</a
+          >
+        </li>
+        <li>
+          <a href="capNhat.html"
+            ><i class="fas fa-user-tag"></i>Vai trò thành viên</a
+          >
+        </li>
+        <li class="logout-item">
+          <a href="login.html" class="logout-link">
+            <i class="fas fa-sign-out-alt"></i>Đăng xuất
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Header -->
+    <div class="header">
+      <i class="fas fa-bars menu-icon"></i>
+      <h1>Trang Chủ</h1>
+    </div>
+
+    <!-- Main content -->
+    <div class="container">
+      <a href="dsKhoa.html" class="card blue">
+        <div class="number">1</div>
+        <div class="title">Khoa</div>
+        <div class="more">Xem thêm <i class="fas fa-arrow-right"></i></div>
+      </a>
+      <a href="lop.html" class="card green">
+        <div class="number">2</div>
+        <div class="title">Lớp</div>
+        <div class="more">Xem thêm <i class="fas fa-arrow-right"></i></div>
+      </a>
+      <a href="dsSinhVien.html" class="card orange">
+        <div class="number">3</div>
+        <div class="title">Sinh viên</div>
+        <div class="more">Xem thêm <i class="fas fa-arrow-right"></i></div>
+      </a>
+      <a href="dsMonHoc.html" class="card red">
+        <div class="number">4</div>
+        <div class="title">Môn học</div>
+        <div class="more">Xem thêm <i class="fas fa-arrow-right"></i></div>
+      </a>
+    </div>
+
+    <script>
+            const sideBar = document.querySelector(".sidebar");
+            const header = document.querySelector(".header");
+
+            header.addEventListener("click", function () {
+              sideBar.classList.toggle("Mo");
+            });
+
+            // Highlight active menu item
+            const currentLocation = location.href;
+            const menuItems = document.querySelectorAll(".sidebar-menu li a");
+            menuItems.forEach((item) => {
+              if (item.href === currentLocation) {
+                item.parentElement.classList.add("active");
+              }
+            });
+
+      document.querySelector('.logout-link').addEventListener('click', function(e) {
+        e.preventDefault();
+        if(confirm('Bạn có chắc chắn muốn đăng xuất?')) {
+          window.location.href = 'login.html';
+        }
+      });
+    </script>
+  </body>
+</html>

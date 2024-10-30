@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cập nhật vai trò</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+      
+
+      /* Header */
+      .header {
+        background-color: #337ab7;
+        color: white;
+        padding: 10px 20px;
+        display: flex;
+        align-items: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 999;
+        transition: margin-left 0.5s;
+      }
+      .header .menu-icon {
+        font-size: 24px;
+        cursor: pointer;
+        margin-right: 20px;
+      }
+
+      /* Main content */
+      .main-content {
+        flex: 1;
+        padding: 80px 20px 20px;
+        margin-left: 0;
+        transition: margin-left 0.5s;
+      }
+      .sidebar.Mo ~ .container,
+      .sidebar.Mo ~ .header {
+        margin-left: 250px;
+      }
+
+      .main-content {
+        flex: 1;
+        padding: 80px 20px 20px;
+        margin-left: 250px;
+        transition: margin-left 0.5s;
+      }
+
+      .container {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      h2 {
+        font-size: 24px;
+        margin-bottom: 20px;
+      }
+      label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+      input[type="text"],
+      textarea {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+      textarea {
+        height: 100px;
+      }
+      .permissions {
+        margin-top: 20px;
+      }
+      .permissions h3 {
+        font-size: 18px;
+        margin-bottom: 10px;
+      }
+      .section {
+        margin-bottom: 20px;
+      }
+      .section h4 {
+        font-size: 16px;
+        margin-bottom: 10px;
+      }
+      .actions {
+        margin-bottom: 10px;
+      }
+      .actions button {
+        padding: 5px 10px;
+        margin-right: 10px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      .select-all {
+        background-color: #28a745;
+        color: #fff;
+      }
+      .deselect-all {
+        background-color: #007bff;
+        color: #fff;
+      }
+      .checkboxes {
+        display: flex;
+        flex-wrap: wrap;
+      }
+      .checkboxes label {
+        width: 200px;
+        margin-bottom: 10px;
+      }
+      .footer {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 20px;
+      }
+      .footer button {
+        margin-left: 10px;
+        padding: 10px 20px;
+        border: none;
+        color: white;
+        cursor: pointer;
+      }
+      .save {
+        background-color: #007bff;
+      }
+      .cancel {
+        background-color: #dc3545;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-header">Quản Lý SV</div>
+      <ul class="sidebar-menu">
+        <li>
+          <a href="index.html"><i class="fas fa-home"></i>Trang chủ</a>
+        </li>
+        <li>
+          <a href="dsKhoa.html"><i class="fas fa-university"></i>Khoa</a>
+        </li>
+        <li>
+          <a href="#"><i class="fas fa-th-large"></i>Lớp</a>
+        </li>
+        <li>
+          <a href="sinhVien.html"><i class="fas fa-user-graduate"></i>Sinh viên</a>
+        </li>
+        <li>
+          <a href="dsSinhVien.html"
+            ><i class="fas fa-user-graduate"></i>Danh sách sinh viên</a
+          >
+        </li>
+        <li>
+          <a href="dsMonHoc.html"
+            ><i class="fas fa-folder"></i>Quản lý môn học</a
+          >
+        </li>
+        <li>
+          <a href="#"><i class="fas fa-folder"></i>Quản lý điểm</a>
+        </li>
+        <li>
+          <a href="dsVaiTro.html"
+            ><i class="fas fa-users"></i>Danh sách vai trò</a
+          >
+        </li>
+        <li class="active">
+          <a href="capNhat.html"
+            ><i class="fas fa-user-tag"></i>Cập nhật vai trò</a
+          >
+        </li>
+        <li class="logout-item">
+          <a href="login.html" class="logout-link">
+            <i class="fas fa-sign-out-alt"></i>Đăng xuất
+          </a>
+        </li>
+      </ul>
+    </div>
+    <!-- Header -->
+    <div class="header">
+      <i class="fas fa-bars menu-icon"></i>
+      <h1>Cập nhật vai trò</h1>
+    </div>
+
+    <!-- Main content -->
+    <div class="main-content">
+      <div class="container">
+        <h2>Cập nhật vai trò</h2>
+        <label for="role-name"
+          >Tên Vai trò <span style="color: red">(*)</span></label
+        >
+        <input type="text" id="role-name" placeholder="Tên . . ." required />
+
+        <label for="description">Mô tả</label>
+        <textarea id="description" placeholder="Mô tả ..."></textarea>
+
+        <div class="permissions">
+          <h3>Phân quyền</h3>
+
+          <div class="section">
+            <h4>HỆ THỐNG</h4>
+            <div class="actions">
+              <button class="select-all" onclick="selectAll('system')">
+                Chọn tất cả
+              </button>
+              <button class="deselect-all" onclick="deselectAll('system')">
+                Hủy tất cả
+              </button>
+            </div>
+            <div class="checkboxes" id="system-permissions">
+              <label
+                ><input type="checkbox" value="truy-cap-he-thong" /> Truy cập hệ
+                thống</label
+              >
+              <label
+                ><input type="checkbox" value="quan-tri-all" /> Quản trị</label
+              >
+            </div>
+          </div>
+
+          <div class="section">
+            <h4>QUẢN LÝ SINH VIÊN</h4>
+            <div class="actions">
+              <button class="select-all" onclick="selectAll('student')">
+                Chọn tất cả
+              </button>
+              <button class="deselect-all" onclick="deselectAll('student')">
+                Hủy tất cả
+              </button>
+            </div>
+            <div class="checkboxes" id="student-permissions">
+              <label
+                ><input type="checkbox" value="xem-danh-sach-sinh-vien" /> Xem
+                danh sách sinh viên</label
+              >
+              <label
+                ><input type="checkbox" value="chi-tiet-thong-tin-sinh-vien" />
+                Chi tiết thông tin SV</label
+              >
+              <label
+                ><input type="checkbox" value="them-moi-sinh-vien" /> Thêm mới
+                sinh viên</label
+              >
+              <label
+                ><input type="checkbox" value="xoa-sinh-vien" /> Xóa sinh
+                viên</label
+              >
+              <label
+                ><input type="checkbox" value="chinh-sua-thong-tin-sinh-vien" />
+                Chỉnh sửa thông tin sinh viên</label
+              >
+            </div>
+          </div>
+
+          <div class="section">
+            <h4>QUẢN LÝ BÀI VIẾT ĐIỀU KHOẢN</h4>
+            <div class="actions">
+              <button class="select-all" onclick="selectAll('terms')">
+                Chọn tất cả
+              </button>
+              <button class="deselect-all" onclick="deselectAll('terms')">
+                Hủy tất cả
+              </button>
+            </div>
+            <div class="checkboxes" id="terms-permissions">
+              <label
+                ><input type="checkbox" value="quan-ly-bai-viet-dieu-khoan" />
+                quan-ly-bai-viet-dieu-khoan</label
+              >
+            </div>
+          </div>
+
+          <div class="section">
+            <h4>QUẢN LÝ MÔN HỌC</h4>
+            <div class="actions">
+              <button class="select-all" onclick="selectAll('subject')">
+                Chọn tất cả
+              </button>
+              <button class="deselect-all" onclick="deselectAll('subject')">
+                Hủy tất cả
+              </button>
+            </div>
+            <div class="checkboxes" id="subject-permissions">
+              <label
+                ><input type="checkbox" value="xem-danh-sach-mon-hoc" /> Xem
+                danh sách môn học</label
+              >
+              <label
+                ><input type="checkbox" value="xoa-mon-hoc" /> Xóa môn
+                học</label
+              >
+              <label
+                ><input type="checkbox" value="them-moi-mon-hoc" /> Thêm mới môn
+                học</label
+              >
+              <label
+                ><input type="checkbox" value="chinh-sua-mon-hoc" /> Chỉnh sửa
+                môn học</label
+              >
+            </div>
+          </div>
+
+          <div class="section">
+            <h4>QUẢN LÝ ĐIỂM</h4>
+            <div class="actions">
+              <button class="select-all" onclick="selectAll('grade')">
+                Chọn tất cả
+              </button>
+              <button class="deselect-all" onclick="deselectAll('grade')">
+                Hủy tất cả
+              </button>
+            </div>
+            <div class="checkboxes" id="grade-permissions">
+              <label
+                ><input type="checkbox" value="xem-danh-sach-diem" /> Xem danh
+                sách điểm</label
+              >
+              <label><input type="checkbox" value="xoa-diem" /> Xóa điểm</label>
+              <label
+                ><input type="checkbox" value="them-moi-diem" /> Thêm mới
+                điểm</label
+              >
+              <label
+                ><input type="checkbox" value="chinh-sua-diem" /> Chỉnh sửa
+                điểm</label
+              >
+            </div>
+          </div>
+
+          <div class="section">
+            <h4>QUẢN LÝ ĐIỂM DANH</h4>
+            <div class="actions">
+              <button class="select-all" onclick="selectAll('attendance')">
+                Chọn tất cả
+              </button>
+              <button class="deselect-all" onclick="deselectAll('attendance')">
+                Hủy tất cả
+              </button>
+            </div>
+            <div class="checkboxes" id="attendance-permissions">
+              <label
+                ><input type="checkbox" value="xem-danh-sach-diem-danh" /> Xem
+                danh sách điểm danh</label
+              >
+              <label
+                ><input type="checkbox" value="xoa-diem-danh" /> Xóa điểm
+                danh</label
+              >
+              <label
+                ><input type="checkbox" value="them-moi-diem-danh" /> Thêm mới
+                điểm danh</label
+              >
+              <label
+                ><input type="checkbox" value="chinh-sua-diem-danh" /> Chỉnh sửa
+                điểm danh</label
+              >
+            </div>
+          </div>
+        </div>
+
+        <div class="footer">
+          <button class="save" onclick="saveRole()">
+            <i class="fas fa-save"></i> Lưu thông tin
+          </button>
+          <button class="cancel" onclick="cancelEdit()">
+            <i class="fas fa-times"></i> Hủy bỏ
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const sideBar = document.querySelector(".sidebar");
+        const menuIcon = document.querySelector(".menu-icon");
+        const mainContent = document.querySelector(".main-content");
+        const header = document.querySelector(".header");
+
+        // Mở sidebar khi trang được tải
+        sideBar.classList.add("Mo");
+        mainContent.style.marginLeft = "250px";
+        header.style.marginLeft = "250px";
+
+        // Xử lý đóng/mở sidebar khi click vào menu icon
+        menuIcon.addEventListener("click", function () {
+          sideBar.classList.toggle("Mo");
+
+          if (sideBar.classList.contains("Mo")) {
+            mainContent.style.marginLeft = "250px";
+            header.style.marginLeft = "250px";
+          } else {
+            mainContent.style.marginLeft = "0";
+            header.style.marginLeft = "0";
+          }
+        });
+
+        // Function to select all checkboxes in a section
+        window.selectAll = function (section) {
+          const checkboxes = document.querySelectorAll(
+            `#${section}-permissions input[type="checkbox"]`
+          );
+          checkboxes.forEach((checkbox) => {
+            checkbox.checked = true;
+          });
+        };
+
+        // Function to deselect all checkboxes in a section
+        window.deselectAll = function (section) {
+          const checkboxes = document.querySelectorAll(
+            `#${section}-permissions input[type="checkbox"]`
+          );
+          checkboxes.forEach((checkbox) => {
+            checkbox.checked = false;
+          });
+        };
+
+        // Function to load editing role data
+        function loadEditingRole() {
+          const editingRole = JSON.parse(localStorage.getItem("editingRole"));
+          if (editingRole) {
+            document.getElementById("role-name").value = editingRole.roleName;
+            document.getElementById("description").value =
+              editingRole.description;
+
+            // Set checkboxes based on saved permissions
+            Object.keys(editingRole.permissions).forEach((section) => {
+              editingRole.permissions[section].forEach((permission) => {
+                const checkbox = document.querySelector(
+                  `input[type="checkbox"][value="${permission}"]`
+                );
+                if (checkbox) {
+                  checkbox.checked = true;
+                }
+              });
+            });
+          }
+        }
+
+        // Function to save role
+        window.saveRole = function () {
+          const roleName = document.getElementById("role-name").value;
+          const description = document.getElementById("description").value;
+
+          if (!roleName.trim()) {
+            alert("Vui lòng nhập tên vai trò!");
+            return;
+          }
+
+          // Collect permissions
+          const permissions = {
+            system: [],
+            student: [],
+            terms: [],
+            subject: [],
+            grade: [],
+            attendance: [],
+          };
+
+          // Get all checkboxes and their values
+          document
+            .querySelectorAll('.checkboxes input[type="checkbox"]')
+            .forEach((checkbox) => {
+              if (checkbox.checked) {
+                const section = checkbox
+                  .closest(".section")
+                  .querySelector("h4")
+                  .textContent.toLowerCase();
+                const sectionKey = section.includes("hệ thống")
+                  ? "system"
+                  : section.includes("sinh viên")
+                  ? "student"
+                  : section.includes("điều khoản")
+                  ? "terms"
+                  : section.includes("môn học")
+                  ? "subject"
+                  : section.includes("điểm danh")
+                  ? "attendance"
+                  : section.includes("điểm")
+                  ? "grade"
+                  : null;
+
+                if (sectionKey && permissions[sectionKey]) {
+                  permissions[sectionKey].push(checkbox.value);
+                }
+              }
+            });
+
+          const roleData = {
+            roleName,
+            description,
+            permissions,
+          };
+
+          // Get existing roles
+          let existingRoles = JSON.parse(localStorage.getItem("roles") || "[]");
+
+          // Check if we're editing an existing role
+          const editingRole = JSON.parse(localStorage.getItem("editingRole"));
+          if (editingRole) {
+            // Find and update the existing role
+            const index = existingRoles.findIndex(
+              (role) => role.roleName === editingRole.roleName
+            );
+            if (index !== -1) {
+              existingRoles[index] = roleData;
+            }
+          } else {
+            // Check if role name already exists
+            if (existingRoles.some((role) => role.roleName === roleName)) {
+              alert("Tên vai trò đã tồn tại!");
+              return;
+            }
+            // Add new role
+            existingRoles.push(roleData);
+          }
+
+          // Save back to localStorage
+          localStorage.setItem("roles", JSON.stringify(existingRoles));
+
+          // Clear the editing role data
+          localStorage.removeItem("editingRole");
+
+          alert("Thông tin vai trò đã được lưu!");
+
+          // Redirect to roles list page
+          window.location.href = "dsVaiTro.html";
+        };
+
+        // Function to cancel edit
+        window.cancelEdit = function () {
+          if (confirm("Bạn có chắc chắn muốn hủy bỏ không?")) {
+            window.location.href = "dsVaiTro.html";
+          }
+        };
+
+        // Load role data when page loads
+        loadEditingRole();
+      });
+    </script>
+    <script src="assets/js/script.js"></script>
+  </body>
+</html>
